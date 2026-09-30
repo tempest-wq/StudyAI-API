@@ -1,0 +1,9 @@
+_format_version: "3.0"
+services:
+  - name: fastapi-backend
+    url: http://api:8000
+    routes:
+      - name: base-route
+        paths:
+          - /api
+        strip_path: false
