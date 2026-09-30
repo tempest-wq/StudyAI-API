@@ -5,7 +5,7 @@ uma
 arquitetura 
 baseada em API Gateway para garantir segurança, isolamento e escalabilidade.
 
-## Como a Arquitetura Funciona
+## Como a arquitetura funciona
 
 O tráfego de requisições segue um fluxo de isolamento através de três camadas:
 
@@ -20,7 +20,7 @@ Para rodar este projeto na sua máquina, você precisa ter instalado:
 * **[Docker e Docker Compose](https://docs.docker.com/get-docker/)**
 * **[uv](https://github.com/astral-sh/uv)** (Gerenciador de pacotes e dependências Python ultrarrápido)
 
-## Como Iniciar o Ambiente Local
+## Como iniciar o ambiente local
 
 1. **Clone o repositório e acesse a pasta do backend:**
    ```bash
