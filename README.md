@@ -1,3 +1,3 @@
 # StudyAI
 
-![diagrama-studyai.png](diagrama-studyai.png)
+![Diagrama do StudyAI](.github/images/diagrama-studyai.png)
