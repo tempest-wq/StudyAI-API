@@ -1,10 +1,11 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     database_url: str
-    jwt_scret: str
+    jwt_secret: str
     jwt_algorithm: str = "HS256"
-    acess_token_expire_minutes: int = 15
+    access_token_expire_minutes: int = 15
     refresh_token_expire_days: int = 30
     redis_url: str
 
@@ -14,4 +15,5 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-setting = Settings()
+
+settings = Settings()
