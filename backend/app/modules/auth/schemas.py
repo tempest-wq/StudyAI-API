@@ -24,3 +24,16 @@ class UserResponse(BaseModel):
     id: UUID
     full_name: str
     email: EmailStr
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+    @field_validator("email", mode="before")
+    @classmethod
+    def normalize_email(cls, value: str) -> str:
+        return value.strip().lower()
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
