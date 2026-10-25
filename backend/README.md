@@ -24,7 +24,7 @@ Para rodar este projeto na sua máquina, você precisa ter instalado:
 
 1. **Clone o repositório e acesse a pasta do backend:**
    ```bash
-   git clone https://github.com/pelican-program/pia.git
+   git clone https://github.com/tempest-wq/studyai-api.git
    cd backend
 2. **Suba os containers da aplicação:**
    ```bash
