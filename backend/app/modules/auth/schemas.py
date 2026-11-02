@@ -25,6 +25,10 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
 
+"""
+    Contrato do login
+"""
+
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
@@ -36,4 +40,5 @@ class LoginRequest(BaseModel):
 
 class TokenResponse(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str = "bearer"

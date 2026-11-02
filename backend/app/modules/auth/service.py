@@ -3,11 +3,20 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.modules.auth.models import User
-from app.modules.auth.schemas import UserCreate
-from app.modules.auth.security import hash_password
+from app.modules.auth.schemas import UserCreate, LoginRequest
+from app.modules.auth.security import (
+    hash_password,
+    verify_password,
+    create_access_token,
+    create_refresh_token
+)
 
 class EmailAlreadyRegisteredError(Exception):
-    """Lança exception de email já utilizado"""
+    """Email já cadastrado"""
+
+class InvalidCredentialsError(Exception):
+    """Credenciais de autenticação inválidas"""
+
 
 async def create_user(session: AsyncSession, user_data: UserCreate) -> User:
     email = str(user_data.email)
@@ -28,3 +37,24 @@ async def create_user(session: AsyncSession, user_data: UserCreate) -> User:
 
     await session.refresh(user)
     return user
+
+async def authenticate_user(session: AsyncSession, login_data: LoginRequest) -> tuple[str, str]:
+    email = str(login_data.email)
+
+    user = await session.scalar(
+        select(User).where(User.email == email)
+    )
+
+    if user is None:
+        raise InvalidCredentialsError
+
+    if not verify_password(login_data.password, user.password_hash):
+        raise InvalidCredentialsError
+
+    if not user.is_active:
+        raise InvalidCredentialsError
+
+    access_token = create_access_token(user.id)
+    refresh_token = create_refresh_token(user.id)
+
+    return access_token, refresh_token
