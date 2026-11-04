@@ -1,14 +1,18 @@
+from datetime import datetime, timedelta, timezone
+
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.modules.auth.models import User
+from app.core.config import settings
+from app.modules.auth.models import User, RefreshToken
 from app.modules.auth.schemas import UserCreate, LoginRequest
 from app.modules.auth.security import (
     hash_password,
     verify_password,
     create_access_token,
-    create_refresh_token
+    create_refresh_token,
+    hash_refresh_token
 )
 
 class EmailAlreadyRegisteredError(Exception):
@@ -56,5 +60,21 @@ async def authenticate_user(session: AsyncSession, login_data: LoginRequest) -> 
 
     access_token = create_access_token(user.id)
     refresh_token = create_refresh_token(user.id)
+
+    refresh_token_record = RefreshToken(
+        user_id=user.id,
+        token_hash=hash_refresh_token(refresh_token),
+        expires_at=datetime.now(timezone.utc) + timedelta(
+            days=settings.refresh_token_expire_days
+        )
+    )
+
+    session.add(refresh_token_record)
+
+    try:
+        await session.commit()
+    except IntegrityError:
+        await session.rollback()
+        raise
 
     return access_token, refresh_token

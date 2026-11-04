@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
+import hashlib
 
 import jwt
 from pwdlib import PasswordHash
@@ -96,3 +97,6 @@ def decode_refresh_token(token: str) -> UUID:
         return UUID(subject)
     except ValueError as exc:
         raise InvalidRefreshTokenError from exc
+
+def hash_refresh_token(token: str) -> str:
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()

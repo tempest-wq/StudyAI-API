@@ -1,3 +1,3 @@
-from app.modules.auth.models import User
+from app.modules.auth.models import User, RefreshToken
 
-__all__ = ["User"]
+__all__ = ["User", "RefreshToken"]
