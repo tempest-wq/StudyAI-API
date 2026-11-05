@@ -8,7 +8,7 @@ from app.modules.auth.schemas import (
     LoginRequest,
     TokenResponse
 )
-from app.modules.auth.service import (
+from app.modules.auth.services import (
     EmailAlreadyRegisteredError,
     InvalidCredentialsError,
     create_user,

@@ -1,26 +1,16 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone, timedelta
 from uuid import UUID
 import hashlib
-
 import jwt
-from pwdlib import PasswordHash
 
 from app.core.config import settings
 
-
+"""Criação, validação e hash dos tokens de autenticação."""
 class InvalidAccessTokenError(Exception):
     """Token de acesso inválido"""
 
 class InvalidRefreshTokenError(Exception):
     """Token de renovação inválido"""
-
-password_hash = PasswordHash.recommended()
-
-def hash_password(password: str) -> str:
-    return password_hash.hash(password)
-
-def verify_password(password: str, hashed_password: str) -> bool:
-    return password_hash.verify(password, hashed_password)
 
 def _create_token(subject: UUID, token_type: str, expires_delta: timedelta) -> str:
     now = datetime.now(timezone.utc)
